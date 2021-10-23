@@ -36,19 +36,23 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var puppeteer = require("puppeteer");
+var puppeteer_extra_1 = require("puppeteer-extra");
+var puppeteer_extra_plugin_adblocker_1 = require("puppeteer-extra-plugin-adblocker");
 var Parser = /** @class */ (function () {
     function Parser() {
         this.setup();
     }
     Parser.prototype.setup = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, _b;
+            var StealthPlugin, _a, _b;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
+                        StealthPlugin = require('puppeteer-extra-plugin-stealth');
+                        puppeteer_extra_1["default"].use((0, puppeteer_extra_plugin_adblocker_1["default"])({ blockTrackers: true }));
+                        puppeteer_extra_1["default"].use(StealthPlugin());
                         _a = this;
-                        return [4 /*yield*/, puppeteer.launch({
+                        return [4 /*yield*/, puppeteer_extra_1["default"].launch({
                                 args: [
                                     '--no-sandbox'
                                 ]

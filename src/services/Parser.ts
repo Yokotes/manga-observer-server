@@ -1,4 +1,6 @@
-import * as puppeteer from 'puppeteer'
+import { Protocol, Browser, Page } from 'puppeteer'
+import puppeteer from 'puppeteer-extra'
+import AddBlockerPlugin from 'puppeteer-extra-plugin-adblocker'
 
 export type ParseResult = {
   configId: string | null,
@@ -9,18 +11,21 @@ export type ParseResult = {
 export type ParseConfig = {
   id: string,
   url: string,
-  cookies: puppeteer.Protocol.Network.CookieParam[]
+  cookies: Protocol.Network.CookieParam[]
 }
 
 export default class Parser {
-  browser: puppeteer.Browser
-  page: puppeteer.Page
+  browser: Browser
+  page: Page
 
   constructor () {
     this.setup()
   }
 
   async setup () {
+    const StealthPlugin = require('puppeteer-extra-plugin-stealth')
+    puppeteer.use(AddBlockerPlugin({ blockTrackers: true }))
+    puppeteer.use(StealthPlugin())
     this.browser = await puppeteer.launch({
       args: [
         '--no-sandbox'
