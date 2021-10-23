@@ -22,7 +22,10 @@ export default class Parser {
 
   async setup () {
     this.browser = await puppeteer.launch({
-
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox'
+      ]
     })
     this.page = await this.browser.newPage()
   }

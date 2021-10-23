@@ -48,7 +48,12 @@ var Parser = /** @class */ (function () {
                 switch (_c.label) {
                     case 0:
                         _a = this;
-                        return [4 /*yield*/, puppeteer.launch({})];
+                        return [4 /*yield*/, puppeteer.launch({
+                                args: [
+                                    '--no-sandbox',
+                                    '--disable-setuid-sandbox'
+                                ]
+                            })];
                     case 1:
                         _a.browser = _c.sent();
                         _b = this;

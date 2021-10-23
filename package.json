@@ -7,7 +7,7 @@
   "scripts": {
     "webpack": "webpack --mode=production",
     "webpack:watch": "webpack --watch --mode=development",
-    "start": "node ./dist/main.js",
+    "start": "node ./dist/index.js",
     "dev": "concurrently \"npm:webpack:watch\" \"npm:nodemon\""
   },
   "keywords": [],
