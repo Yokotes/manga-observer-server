@@ -50,8 +50,7 @@ var Parser = /** @class */ (function () {
                         _a = this;
                         return [4 /*yield*/, puppeteer.launch({
                                 args: [
-                                    '--no-sandbox',
-                                    '--disable-setuid-sandbox'
+                                    '--no-sandbox'
                                 ]
                             })];
                     case 1:
@@ -94,11 +93,10 @@ var Parser = /** @class */ (function () {
                     case 5: return [4 /*yield*/, this.page.goto(url)];
                     case 6:
                         _b.sent();
-                        return [4 /*yield*/, this.page.content()
-                            // eslint-disable-next-line prefer-regex-literals
-                        ];
+                        return [4 /*yield*/, this.page.content()];
                     case 7:
                         content = _b.sent();
+                        console.log(content);
                         // eslint-disable-next-line prefer-regex-literals
                         res.data = JSON.parse(content.replace(new RegExp('<[^>]*>', 'g'), '')).notifications;
                         res.status = 'success';

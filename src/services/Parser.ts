@@ -23,8 +23,7 @@ export default class Parser {
   async setup () {
     this.browser = await puppeteer.launch({
       args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox'
+        '--no-sandbox'
       ]
     })
     this.page = await this.browser.newPage()
@@ -43,6 +42,7 @@ export default class Parser {
       await this.page.goto(url)
 
       const content = await this.page.content()
+      console.log(content)
       // eslint-disable-next-line prefer-regex-literals
       res.data = JSON.parse(content.replace(new RegExp('<[^>]*>', 'g'), '')).notifications
       res.status = 'success'
