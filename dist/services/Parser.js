@@ -63,6 +63,9 @@ var Parser = /** @class */ (function () {
                         return [4 /*yield*/, this.browser.newPage()];
                     case 2:
                         _b.page = _c.sent();
+                        return [4 /*yield*/, this.page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36')];
+                    case 3:
+                        _c.sent();
                         return [2 /*return*/];
                 }
             });
