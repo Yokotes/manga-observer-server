@@ -29,8 +29,16 @@ export default class Parser {
 
     this.browser = await puppeteer.launch({
       headless: true,
+      ignoreHTTPSErrors: true,
+      userDataDir: './tmp',
       args: [
-        '--no-sandbox'
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-infobars',
+        '--window-position=0,0',
+        '--ignore-certifcate-errors',
+        '--ignore-certifcate-errors-spki-list',
+        '--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"'
       ]
     })
     this.page = await this.browser.newPage()
