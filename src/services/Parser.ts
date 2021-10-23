@@ -27,6 +27,8 @@ export default class Parser {
     puppeteer.use(AddBlockerPlugin({ blockTrackers: true }))
     puppeteer.use(StealthPlugin())
 
+    console.log(process.env.PROXY_SERVER)
+
     this.browser = await puppeteer.launch({
       headless: true,
       ignoreHTTPSErrors: true,

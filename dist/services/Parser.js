@@ -51,6 +51,7 @@ var Parser = /** @class */ (function () {
                         StealthPlugin = require('puppeteer-extra-plugin-stealth');
                         puppeteer_extra_1["default"].use((0, puppeteer_extra_plugin_adblocker_1["default"])({ blockTrackers: true }));
                         puppeteer_extra_1["default"].use(StealthPlugin());
+                        console.log(process.env.PROXY_SERVER);
                         _a = this;
                         return [4 /*yield*/, puppeteer_extra_1["default"].launch({
                                 headless: true,
