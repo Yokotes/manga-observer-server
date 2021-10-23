@@ -62,6 +62,7 @@ var Parser = /** @class */ (function () {
                         return [4 /*yield*/, this.browser.newPage()];
                     case 2:
                         _b.page = _c.sent();
+                        this.page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36');
                         this.page.setJavaScriptEnabled(true);
                         return [2 /*return*/];
                 }
@@ -97,10 +98,11 @@ var Parser = /** @class */ (function () {
                     case 5: return [4 /*yield*/, this.page.goto(url)];
                     case 6:
                         _b.sent();
-                        return [4 /*yield*/, this.page.content()];
+                        return [4 /*yield*/, this.page.content()
+                            // eslint-disable-next-line prefer-regex-literals
+                        ];
                     case 7:
                         content = _b.sent();
-                        console.log(content);
                         // eslint-disable-next-line prefer-regex-literals
                         res.data = JSON.parse(content.replace(new RegExp('<[^>]*>', 'g'), '')).notifications;
                         res.status = 'success';

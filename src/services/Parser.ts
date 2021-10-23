@@ -32,6 +32,7 @@ export default class Parser {
       ]
     })
     this.page = await this.browser.newPage()
+    this.page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36')
     this.page.setJavaScriptEnabled(true)
   }
 
@@ -48,7 +49,6 @@ export default class Parser {
       await this.page.goto(url)
 
       const content = await this.page.content()
-      console.log(content)
       // eslint-disable-next-line prefer-regex-literals
       res.data = JSON.parse(content.replace(new RegExp('<[^>]*>', 'g'), '')).notifications
       res.status = 'success'
