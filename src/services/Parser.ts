@@ -28,6 +28,7 @@ export default class Parser {
     puppeteer.use(StealthPlugin())
 
     this.browser = await puppeteer.launch({
+      headless: true,
       args: [
         '--no-sandbox'
       ]

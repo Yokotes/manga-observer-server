@@ -53,6 +53,7 @@ var Parser = /** @class */ (function () {
                         puppeteer_extra_1["default"].use(StealthPlugin());
                         _a = this;
                         return [4 /*yield*/, puppeteer_extra_1["default"].launch({
+                                headless: true,
                                 args: [
                                     '--no-sandbox'
                                 ]
