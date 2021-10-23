@@ -37,34 +37,23 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var puppeteer_extra_1 = require("puppeteer-extra");
-var puppeteer_extra_plugin_adblocker_1 = require("puppeteer-extra-plugin-adblocker");
 var Parser = /** @class */ (function () {
     function Parser() {
         this.setup();
     }
     Parser.prototype.setup = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var StealthPlugin, _a, _b;
+            var _a, _b;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        StealthPlugin = require('puppeteer-extra-plugin-stealth');
-                        puppeteer_extra_1["default"].use((0, puppeteer_extra_plugin_adblocker_1["default"])({ blockTrackers: true }));
-                        puppeteer_extra_1["default"].use(StealthPlugin());
-                        console.log(process.env.PROXY_SERVER);
                         _a = this;
                         return [4 /*yield*/, puppeteer_extra_1["default"].launch({
                                 headless: true,
                                 ignoreHTTPSErrors: true,
-                                userDataDir: './tmp',
                                 args: [
                                     '--no-sandbox',
-                                    '--disable-setuid-sandbox',
-                                    '--disable-infobars',
-                                    '--window-position=0,0',
-                                    '--ignore-certifcate-errors',
-                                    '--ignore-certifcate-errors-spki-list',
-                                    '--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"'
+                                    '--disable-setuid-sandbox'
                                 ]
                             })];
                     case 1:
@@ -73,9 +62,7 @@ var Parser = /** @class */ (function () {
                         return [4 /*yield*/, this.browser.newPage()];
                     case 2:
                         _b.page = _c.sent();
-                        return [4 /*yield*/, this.page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36')];
-                    case 3:
-                        _c.sent();
+                        this.page.setJavaScriptEnabled(true);
                         return [2 /*return*/];
                 }
             });
@@ -110,11 +97,10 @@ var Parser = /** @class */ (function () {
                     case 5: return [4 /*yield*/, this.page.goto(url)];
                     case 6:
                         _b.sent();
-                        return [4 /*yield*/, this.page.content()
-                            // eslint-disable-next-line prefer-regex-literals
-                        ];
+                        return [4 /*yield*/, this.page.content()];
                     case 7:
                         content = _b.sent();
+                        console.log(content);
                         // eslint-disable-next-line prefer-regex-literals
                         res.data = JSON.parse(content.replace(new RegExp('<[^>]*>', 'g'), '')).notifications;
                         res.status = 'success';

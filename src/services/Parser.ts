@@ -23,28 +23,16 @@ export default class Parser {
   }
 
   async setup () {
-    const StealthPlugin = require('puppeteer-extra-plugin-stealth')
-    puppeteer.use(AddBlockerPlugin({ blockTrackers: true }))
-    puppeteer.use(StealthPlugin())
-
-    console.log(process.env.PROXY_SERVER)
-
     this.browser = await puppeteer.launch({
       headless: true,
       ignoreHTTPSErrors: true,
-      userDataDir: './tmp',
       args: [
         '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-infobars',
-        '--window-position=0,0',
-        '--ignore-certifcate-errors',
-        '--ignore-certifcate-errors-spki-list',
-        '--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"'
+        '--disable-setuid-sandbox'
       ]
     })
     this.page = await this.browser.newPage()
-    await this.page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36')
+    this.page.setJavaScriptEnabled(true)
   }
 
   async parse ({ id, url, cookies }: ParseConfig) {
@@ -60,6 +48,7 @@ export default class Parser {
       await this.page.goto(url)
 
       const content = await this.page.content()
+      console.log(content)
       // eslint-disable-next-line prefer-regex-literals
       res.data = JSON.parse(content.replace(new RegExp('<[^>]*>', 'g'), '')).notifications
       res.status = 'success'
