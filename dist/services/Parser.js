@@ -109,10 +109,11 @@ var Parser = /** @class */ (function () {
                     case 5: return [4 /*yield*/, this.page.goto(url)];
                     case 6:
                         _b.sent();
-                        return [4 /*yield*/, this.page.content()];
+                        return [4 /*yield*/, this.page.content()
+                            // eslint-disable-next-line prefer-regex-literals
+                        ];
                     case 7:
                         content = _b.sent();
-                        console.log(content);
                         // eslint-disable-next-line prefer-regex-literals
                         res.data = JSON.parse(content.replace(new RegExp('<[^>]*>', 'g'), '')).notifications;
                         res.status = 'success';
