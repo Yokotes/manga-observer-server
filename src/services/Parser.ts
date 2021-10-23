@@ -28,7 +28,8 @@ export default class Parser {
       ignoreHTTPSErrors: true,
       args: [
         '--no-sandbox',
-        '--disable-setuid-sandbox'
+        '--disable-setuid-sandbox',
+        '--proxy-server=31.210.210.22:10057'
       ]
     })
     this.page = await this.browser.newPage()
