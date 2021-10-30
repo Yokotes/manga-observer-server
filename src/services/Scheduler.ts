@@ -9,7 +9,7 @@ export default class Scheduler {
 
   constructor () {
     this.events = []
-    this.interval = 10000
+    this.interval = 60000
   }
 
   addEvent (event: SchedulerEvent) {
