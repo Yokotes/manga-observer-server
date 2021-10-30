@@ -18,7 +18,7 @@ var Server = /** @class */ (function () {
         });
         this.app.use((0, body_parser_1.json)());
         this.app.use('/api', [routes_1.mangaRoute, routes_1.configRoute, routes_1.timerRoute]);
-        this.io.on('connection', function (socket) { return console.log('connected', socket.id); });
+        this.io.on('connection', function () { return console.log('connected'); });
     };
     Server.prototype.run = function () {
         this.server.listen(process.env.PORT, function () { return console.log('Server is running on PORT', process.env.PORT); });

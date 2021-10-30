@@ -25,7 +25,7 @@ export default class Server {
     this.app.use(json())
     this.app.use('/api', [mangaRoute, configRoute, timerRoute])
 
-    this.io.on('connection', (socket) => console.log('connected', socket.id))
+    this.io.on('connection', () => console.log('connected'))
   }
 
   run () {
