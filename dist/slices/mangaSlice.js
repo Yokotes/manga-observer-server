@@ -1,7 +1,7 @@
 "use strict";
 var _a;
 exports.__esModule = true;
-exports.removeManga = exports.addManga = void 0;
+exports.clearMangaList = exports.removeManga = exports.addManga = void 0;
 var toolkit_1 = require("@reduxjs/toolkit");
 var mangaSlice = (0, toolkit_1.createSlice)({
     name: 'mangaSlice',
@@ -16,8 +16,11 @@ var mangaSlice = (0, toolkit_1.createSlice)({
         removeManga: function (state, _a) {
             var payload = _a.payload;
             state.mangaList = state.mangaList.filter(function (manga) { return manga.id !== payload; });
+        },
+        clearMangaList: function (state) {
+            state.mangaList = [];
         }
     }
 });
 exports["default"] = mangaSlice.reducer;
-exports.addManga = (_a = mangaSlice.actions, _a.addManga), exports.removeManga = _a.removeManga;
+exports.addManga = (_a = mangaSlice.actions, _a.addManga), exports.removeManga = _a.removeManga, exports.clearMangaList = _a.clearMangaList;

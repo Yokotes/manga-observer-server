@@ -11,10 +11,13 @@ const mangaSlice = createSlice({
     },
     removeManga (state, { payload }) {
       state.mangaList = state.mangaList.filter(manga => manga.id !== payload)
+    },
+    clearMangaList (state) {
+      state.mangaList = []
     }
   }
 })
 
 export default mangaSlice.reducer
 
-export const { addManga, removeManga } = mangaSlice.actions
+export const { addManga, removeManga, clearMangaList } = mangaSlice.actions

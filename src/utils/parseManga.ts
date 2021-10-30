@@ -1,6 +1,6 @@
 import { getMangaInfo } from '.'
 import Parser, { ParseConfig } from '../services/Parser'
-import { addManga } from '../slices/mangaSlice'
+import { addManga, clearMangaList } from '../slices/mangaSlice'
 
 const parseManga = async (config: ParseConfig, parser: Parser, store: any) => {
   const content = await parser.parse(config)
@@ -10,18 +10,14 @@ const parseManga = async (config: ParseConfig, parser: Parser, store: any) => {
   }
 
   const data: Array<any> = content.data
-  const mangaList = store.getState().manga.mangaList
 
   if (!data) return
   try {
-    data.forEach(item => {
-      const mangaExists = mangaList.filter(m => m.id === item.data.manga.slug)
+    const mangaArr = data.map(item => getMangaInfo(item.data, config))
 
-      if (mangaExists.length > 0) return
-
-      const mangaInfo = getMangaInfo(item.data, config)
-
-      store.dispatch(addManga(mangaInfo))
+    store.dispatch(clearMangaList())
+    mangaArr.forEach(manga => {
+      store.dispatch(addManga(manga))
     })
   } catch (err) {
     console.log('error', err)

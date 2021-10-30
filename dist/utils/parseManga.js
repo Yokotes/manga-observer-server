@@ -39,7 +39,7 @@ exports.__esModule = true;
 var _1 = require(".");
 var mangaSlice_1 = require("../slices/mangaSlice");
 var parseManga = function (config, parser, store) { return __awaiter(void 0, void 0, void 0, function () {
-    var content, data, mangaList;
+    var content, data, mangaArr;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, parser.parse(config)];
@@ -50,16 +50,13 @@ var parseManga = function (config, parser, store) { return __awaiter(void 0, voi
                     return [2 /*return*/];
                 }
                 data = content.data;
-                mangaList = store.getState().manga.mangaList;
                 if (!data)
                     return [2 /*return*/];
                 try {
-                    data.forEach(function (item) {
-                        var mangaExists = mangaList.filter(function (m) { return m.id === item.data.manga.slug; });
-                        if (mangaExists.length > 0)
-                            return;
-                        var mangaInfo = (0, _1.getMangaInfo)(item.data, config);
-                        store.dispatch((0, mangaSlice_1.addManga)(mangaInfo));
+                    mangaArr = data.map(function (item) { return (0, _1.getMangaInfo)(item.data, config); });
+                    store.dispatch((0, mangaSlice_1.clearMangaList)());
+                    mangaArr.forEach(function (manga) {
+                        store.dispatch((0, mangaSlice_1.addManga)(manga));
                     });
                 }
                 catch (err) {
