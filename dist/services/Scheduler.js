@@ -20,13 +20,12 @@ var Scheduler = /** @class */ (function () {
     };
     Scheduler.prototype.__loop = function () {
         var _this = this;
-        this.timerId = setTimeout(function () {
+        this.timerId = setInterval(function () {
             _this.events.forEach(function (event) { return event.exec(_this); });
-            _this.__loop();
         }, this.interval);
     };
     Scheduler.prototype.stop = function () {
-        clearTimeout(this.timerId);
+        clearInterval(this.timerId);
     };
     return Scheduler;
 }());

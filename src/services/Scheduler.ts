@@ -29,14 +29,13 @@ export default class Scheduler {
   }
 
   __loop () {
-    this.timerId = setTimeout(() => {
+    this.timerId = setInterval(() => {
       this.events.forEach(event => event.exec(this))
-      this.__loop()
     }, this.interval)
   }
 
   stop () {
-    clearTimeout(this.timerId)
+    clearInterval(this.timerId)
   }
 }
 
