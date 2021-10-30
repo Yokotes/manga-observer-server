@@ -17,7 +17,7 @@ var Server = /** @class */ (function () {
             res.send('Manga Observer');
         });
         this.app.use((0, body_parser_1.json)());
-        this.app.use('/api', [routes_1.mangaRoute, routes_1.configRoute]);
+        this.app.use('/api', [routes_1.mangaRoute, routes_1.configRoute, routes_1.timerRoute]);
         this.io.on('connection', function (socket) { return console.log('connected', socket.id); });
     };
     Server.prototype.run = function () {

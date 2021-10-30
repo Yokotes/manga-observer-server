@@ -2,13 +2,12 @@ import { config } from 'dotenv'
 import Server from './server'
 import store from './store'
 import Parser, { ParseConfig } from './services/Parser'
-import Scheduler from './services/Scheduler'
 import { parseManga } from './utils'
 
 config()
 
 const server = new Server()
-const globalScheduler = new Scheduler()
+const globalScheduler = store.getState().scheduler.scheduler
 const parser = new Parser()
 globalScheduler.setInterval(10000)
 globalScheduler.addEvent({

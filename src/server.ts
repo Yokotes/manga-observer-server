@@ -2,7 +2,7 @@ import { createServer, Server as HttpServer } from 'http'
 import * as express from 'express'
 import { Express } from 'express'
 import { Server as SocketServer } from 'socket.io'
-import { configRoute, mangaRoute } from './routes'
+import { configRoute, mangaRoute, timerRoute } from './routes'
 import { json } from 'body-parser'
 
 export default class Server {
@@ -23,7 +23,7 @@ export default class Server {
       res.send('Manga Observer')
     })
     this.app.use(json())
-    this.app.use('/api', [mangaRoute, configRoute])
+    this.app.use('/api', [mangaRoute, configRoute, timerRoute])
 
     this.io.on('connection', (socket) => console.log('connected', socket.id))
   }

@@ -9,7 +9,7 @@ export default class Scheduler {
 
   constructor () {
     this.events = []
-    this.interval = 1000
+    this.interval = 10000
   }
 
   addEvent (event: SchedulerEvent) {
@@ -18,8 +18,6 @@ export default class Scheduler {
 
   setInterval (val: number) {
     this.interval = val
-    this.stop()
-    this.start()
   }
 
   getEvents () {
@@ -27,13 +25,18 @@ export default class Scheduler {
   }
 
   start () {
-    this.timerId = setInterval(() => {
+    this.__loop()
+  }
+
+  __loop () {
+    this.timerId = setTimeout(() => {
       this.events.forEach(event => event.exec(this))
+      this.__loop()
     }, this.interval)
   }
 
   stop () {
-    clearInterval(this.timerId)
+    clearTimeout(this.timerId)
   }
 }
 

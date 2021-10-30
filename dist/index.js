@@ -40,11 +40,10 @@ var dotenv_1 = require("dotenv");
 var server_1 = require("./server");
 var store_1 = require("./store");
 var Parser_1 = require("./services/Parser");
-var Scheduler_1 = require("./services/Scheduler");
 var utils_1 = require("./utils");
 (0, dotenv_1.config)();
 var server = new server_1["default"]();
-var globalScheduler = new Scheduler_1["default"]();
+var globalScheduler = store_1["default"].getState().scheduler.scheduler;
 var parser = new Parser_1["default"]();
 globalScheduler.setInterval(10000);
 globalScheduler.addEvent({
