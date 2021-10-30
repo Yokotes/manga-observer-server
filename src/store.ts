@@ -1,4 +1,5 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import { combineReducers, configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
+
 import configSlice from './slices/configSlice'
 import mangaSlice from './slices/mangaSlice'
 import schedulerSlice from './slices/schedulerSlice'
@@ -9,8 +10,13 @@ const rootReducer = combineReducers({
   scheduler: schedulerSlice
 })
 
+const customMiddleware = getDefaultMiddleware({
+  serializableCheck: false
+})
+
 const store = configureStore({
-  reducer: rootReducer
+  reducer: rootReducer,
+  middleware: customMiddleware
 })
 
 export default store

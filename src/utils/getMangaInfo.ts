@@ -15,7 +15,15 @@ type RawManga = {
   link: string
 }
 
-const getMangaInfo = ({ manga, chapter, link }: RawManga, config: ParseConfig) => {
+export type MangaInfo = {
+  id: string,
+  name: string,
+  img: string,
+  chapter: string,
+  link: string
+}
+
+const getMangaInfo = ({ manga, chapter, link }: RawManga, config: ParseConfig): MangaInfo => {
   return {
     id: manga.slug,
     name: manga.rus_name,

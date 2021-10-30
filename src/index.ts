@@ -3,13 +3,20 @@ import Server from './server'
 import store from './store'
 import Parser, { ParseConfig } from './services/Parser'
 import { parseManga } from './utils'
+import { Notifier } from './services'
 
 config()
 
 const server = new Server()
 const globalScheduler = store.getState().scheduler.scheduler
 const parser = new Parser()
-globalScheduler.setInterval(10000)
+const notifier = new Notifier(server.getSockets())
+
+globalScheduler.setInterval(5000)
+globalScheduler.addEvent({
+  id: 'notifier',
+  exec: () => { notifier.watchUpdates() }
+})
 globalScheduler.addEvent({
   id: 'main',
   exec: (scheduler) => {

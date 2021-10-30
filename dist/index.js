@@ -41,11 +41,17 @@ var server_1 = require("./server");
 var store_1 = require("./store");
 var Parser_1 = require("./services/Parser");
 var utils_1 = require("./utils");
+var services_1 = require("./services");
 (0, dotenv_1.config)();
 var server = new server_1["default"]();
 var globalScheduler = store_1["default"].getState().scheduler.scheduler;
 var parser = new Parser_1["default"]();
-globalScheduler.setInterval(10000);
+var notifier = new services_1.Notifier(server.getSockets());
+globalScheduler.setInterval(5000);
+globalScheduler.addEvent({
+    id: 'notifier',
+    exec: function () { notifier.watchUpdates(); }
+});
 globalScheduler.addEvent({
     id: 'main',
     exec: function (scheduler) {

@@ -9,7 +9,11 @@ var rootReducer = (0, toolkit_1.combineReducers)({
     config: configSlice_1["default"],
     scheduler: schedulerSlice_1["default"]
 });
+var customMiddleware = (0, toolkit_1.getDefaultMiddleware)({
+    serializableCheck: false
+});
 var store = (0, toolkit_1.configureStore)({
-    reducer: rootReducer
+    reducer: rootReducer,
+    middleware: customMiddleware
 });
 exports["default"] = store;
