@@ -1,6 +1,5 @@
+import * as puppeteer from 'puppeteer'
 import { Protocol, Browser, Page } from 'puppeteer'
-import puppeteer from 'puppeteer-extra'
-import AddBlockerPlugin from 'puppeteer-extra-plugin-adblocker'
 
 export type ParseResult = {
   configId: string | null,
@@ -14,27 +13,36 @@ export type ParseConfig = {
   cookies: Protocol.Network.CookieParam[]
 }
 
+export type PageObj = {
+  id: string,
+  page: Page
+}
+
 export default class Parser {
   browser: Browser
-  page: Page
+  pages: PageObj[]
 
   constructor () {
     this.setup()
   }
 
   async setup () {
+    const args = [
+      '--no-sandbox',
+      '--disable-setuid-sandbox'
+    ]
+
+    if (process.env.IS_HEROKU === 'true') {
+      args.push(`--proxy-server=${process.env.PROXY_SERVER}`)
+    }
+
     this.browser = await puppeteer.launch({
       headless: true,
       ignoreHTTPSErrors: true,
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--proxy-server=31.210.210.22:10057'
-      ]
+      args: args
     })
-    this.page = await this.browser.newPage()
-    this.page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36')
-    this.page.setJavaScriptEnabled(true)
+
+    this.pages = []
   }
 
   async parse ({ id, url, cookies }: ParseConfig) {
@@ -43,13 +51,33 @@ export default class Parser {
       data: '',
       status: 'error'
     }
+    const pageObj = this.pages.find((p) => p.id === id)
+    let currentPage: Page
+
+    if (pageObj) {
+      const { page } = pageObj
+      page.reload()
+
+      currentPage = page
+    } else {
+      const newPage = await this.browser.newPage()
+      newPage.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36')
+      newPage.setJavaScriptEnabled(true)
+      this.pages.push({
+        id,
+        page: newPage
+      })
+
+      currentPage = newPage
+    }
+
     try {
       for (let i = 0; i < cookies.length; i++) {
-        await this.page.setCookie(cookies[i])
+        await currentPage.setCookie(cookies[i])
       }
-      await this.page.goto(url)
+      await currentPage.goto(url)
 
-      const content = await this.page.content()
+      const content = await currentPage.content()
       // eslint-disable-next-line prefer-regex-literals
       res.data = JSON.parse(content.replace(new RegExp('<[^>]*>', 'g'), '')).notifications
       res.status = 'success'
@@ -57,6 +85,8 @@ export default class Parser {
       res.data = err
       res.status = 'error'
     }
+
+    currentPage.reload()
 
     return res
   }

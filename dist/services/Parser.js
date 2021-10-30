@@ -36,35 +36,33 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var puppeteer_extra_1 = require("puppeteer-extra");
+var puppeteer = require("puppeteer");
 var Parser = /** @class */ (function () {
     function Parser() {
         this.setup();
     }
     Parser.prototype.setup = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, _b;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            var args, _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
+                        args = [
+                            '--no-sandbox',
+                            '--disable-setuid-sandbox'
+                        ];
+                        if (process.env.IS_HEROKU === 'true') {
+                            args.push("--proxy-server=" + process.env.PROXY_SERVER);
+                        }
                         _a = this;
-                        return [4 /*yield*/, puppeteer_extra_1["default"].launch({
+                        return [4 /*yield*/, puppeteer.launch({
                                 headless: true,
                                 ignoreHTTPSErrors: true,
-                                args: [
-                                    '--no-sandbox',
-                                    '--disable-setuid-sandbox',
-                                    '--proxy-server=31.210.210.22:10057'
-                                ]
+                                args: args
                             })];
                     case 1:
-                        _a.browser = _c.sent();
-                        _b = this;
-                        return [4 /*yield*/, this.browser.newPage()];
-                    case 2:
-                        _b.page = _c.sent();
-                        this.page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36');
-                        this.page.setJavaScriptEnabled(true);
+                        _a.browser = _b.sent();
+                        this.pages = [];
                         return [2 /*return*/];
                 }
             });
@@ -73,7 +71,7 @@ var Parser = /** @class */ (function () {
     Parser.prototype.parse = function (_a) {
         var id = _a.id, url = _a.url, cookies = _a.cookies;
         return __awaiter(this, void 0, void 0, function () {
-            var res, i, content, err_1;
+            var res, pageObj, currentPage, page, newPage, i, content, err_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -82,38 +80,56 @@ var Parser = /** @class */ (function () {
                             data: '',
                             status: 'error'
                         };
-                        _b.label = 1;
-                    case 1:
-                        _b.trys.push([1, 8, , 9]);
-                        i = 0;
-                        _b.label = 2;
+                        pageObj = this.pages.find(function (p) { return p.id === id; });
+                        if (!pageObj) return [3 /*break*/, 1];
+                        page = pageObj.page;
+                        page.reload();
+                        currentPage = page;
+                        return [3 /*break*/, 3];
+                    case 1: return [4 /*yield*/, this.browser.newPage()];
                     case 2:
-                        if (!(i < cookies.length)) return [3 /*break*/, 5];
-                        return [4 /*yield*/, this.page.setCookie(cookies[i])];
+                        newPage = _b.sent();
+                        newPage.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36');
+                        newPage.setJavaScriptEnabled(true);
+                        this.pages.push({
+                            id: id,
+                            page: newPage
+                        });
+                        currentPage = newPage;
+                        _b.label = 3;
                     case 3:
-                        _b.sent();
+                        _b.trys.push([3, 10, , 11]);
+                        i = 0;
                         _b.label = 4;
                     case 4:
-                        i++;
-                        return [3 /*break*/, 2];
-                    case 5: return [4 /*yield*/, this.page.goto(url)];
-                    case 6:
+                        if (!(i < cookies.length)) return [3 /*break*/, 7];
+                        return [4 /*yield*/, currentPage.setCookie(cookies[i])];
+                    case 5:
                         _b.sent();
-                        return [4 /*yield*/, this.page.content()
+                        _b.label = 6;
+                    case 6:
+                        i++;
+                        return [3 /*break*/, 4];
+                    case 7: return [4 /*yield*/, currentPage.goto(url)];
+                    case 8:
+                        _b.sent();
+                        return [4 /*yield*/, currentPage.content()
                             // eslint-disable-next-line prefer-regex-literals
                         ];
-                    case 7:
+                    case 9:
                         content = _b.sent();
                         // eslint-disable-next-line prefer-regex-literals
                         res.data = JSON.parse(content.replace(new RegExp('<[^>]*>', 'g'), '')).notifications;
                         res.status = 'success';
-                        return [3 /*break*/, 9];
-                    case 8:
+                        return [3 /*break*/, 11];
+                    case 10:
                         err_1 = _b.sent();
                         res.data = err_1;
                         res.status = 'error';
-                        return [3 /*break*/, 9];
-                    case 9: return [2 /*return*/, res];
+                        return [3 /*break*/, 11];
+                    case 11:
+                        currentPage.reload();
+                        return [2 /*return*/, res];
                 }
             });
         });
