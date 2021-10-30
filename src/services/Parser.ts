@@ -20,7 +20,7 @@ export type PageObj = {
 
 export default class Parser {
   browser: Browser
-  pages: PageObj[]
+  page: Page
 
   constructor () {
     this.setup()
@@ -42,7 +42,9 @@ export default class Parser {
       args: args
     })
 
-    this.pages = []
+    this.page = await this.browser.newPage()
+    this.page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36')
+    this.page.setJavaScriptEnabled(true)
   }
 
   async parse ({ id, url, cookies }: ParseConfig) {
@@ -51,33 +53,14 @@ export default class Parser {
       data: '',
       status: 'error'
     }
-    const pageObj = this.pages.find((p) => p.id === id)
-    let currentPage: Page
-
-    if (pageObj) {
-      const { page } = pageObj
-      page.reload()
-
-      currentPage = page
-    } else {
-      const newPage = await this.browser.newPage()
-      newPage.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36')
-      newPage.setJavaScriptEnabled(true)
-      this.pages.push({
-        id,
-        page: newPage
-      })
-
-      currentPage = newPage
-    }
 
     try {
       for (let i = 0; i < cookies.length; i++) {
-        await currentPage.setCookie(cookies[i])
+        await this.page.setCookie(cookies[i])
       }
-      await currentPage.goto(url)
+      await this.page.goto(url)
 
-      const content = await currentPage.content()
+      const content = await this.page.content()
       // eslint-disable-next-line prefer-regex-literals
       res.data = JSON.parse(content.replace(new RegExp('<[^>]*>', 'g'), '')).notifications
       res.status = 'success'
@@ -85,8 +68,6 @@ export default class Parser {
       res.data = err
       res.status = 'error'
     }
-
-    currentPage.reload()
 
     return res
   }
