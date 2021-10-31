@@ -9,7 +9,7 @@ configRoute.get('/config', (req, res) => {
   res.send(configs)
 })
 
-configRoute.post('/config', (req, res) => {
+configRoute.post('/config', async (req, res) => {
   const configManager = store.getState().configManager.configManager
   const config = req.body
 
@@ -18,7 +18,7 @@ configRoute.post('/config', (req, res) => {
     return
   }
 
-  configManager.writeToConfigs(config)
+  await configManager.writeToConfigs(config)
   store.dispatch(addConfig(config))
 
   res.sendStatus(201)

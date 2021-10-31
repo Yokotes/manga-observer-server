@@ -2,11 +2,11 @@
 exports.__esModule = true;
 exports.setConfigManager = void 0;
 var toolkit_1 = require("@reduxjs/toolkit");
-var services_1 = require("../services");
+var MongoConfigManager_1 = require("../services/MongoConfigManager");
 var configManagerSlice = (0, toolkit_1.createSlice)({
     name: 'configManagerSlice',
     initialState: {
-        configManager: new services_1.ConfigManager()
+        configManager: new MongoConfigManager_1["default"]()
     },
     reducers: {
         setConfigManager: function (state, _a) {

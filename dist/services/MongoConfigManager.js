@@ -36,50 +36,49 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var dotenv_1 = require("dotenv");
-var server_1 = require("./server");
-var store_1 = require("./store");
-var Parser_1 = require("./services/Parser");
-var utils_1 = require("./utils");
-var services_1 = require("./services");
-var configSlice_1 = require("./slices/configSlice");
-var mongoose_1 = require("mongoose");
-(0, dotenv_1.config)();
-(0, mongoose_1.connect)(process.env.MONGO_URL);
-var globalScheduler = store_1["default"].getState().scheduler.scheduler;
-var configManager = store_1["default"].getState().configManager.configManager;
-var server = new server_1["default"]();
-var parser = new Parser_1["default"]();
-var notifier = new services_1.Notifier(server.getSockets());
-configManager.readConfigs().then(function (configs) {
-    configs.forEach(function (config) {
-        store_1["default"].dispatch((0, configSlice_1.addConfig)(config));
-    });
-});
-globalScheduler.addEvent({
-    id: 'notifier',
-    exec: function () { notifier.watchUpdates(); }
-});
-globalScheduler.addEvent({
-    id: 'main',
-    exec: function (scheduler) {
-        var configs = store_1["default"].getState().config.configs;
-        var events = scheduler.getEvents();
-        configs.forEach(function (config) {
-            var eventExists = events.find(function (event) { return event.id === config.id; });
-            if (eventExists)
-                return;
-            scheduler.addEvent({
-                id: config.id,
-                exec: function () { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0: return [4 /*yield*/, (0, utils_1.parseManga)(config, parser, store_1["default"])];
-                        case 1: return [2 /*return*/, _a.sent()];
-                    }
-                }); }); }
+var models_1 = require("../models");
+var MongoConfigManager = /** @class */ (function () {
+    function MongoConfigManager() {
+    }
+    MongoConfigManager.prototype.readConfigs = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var rawData, configs;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, models_1.Config.find({})];
+                    case 1:
+                        rawData = _a.sent();
+                        configs = [];
+                        rawData.forEach(function (item) {
+                            configs.push({
+                                id: item.id,
+                                url: item.url,
+                                cookies: item.cookies
+                            });
+                        });
+                        return [2 /*return*/, configs];
+                }
             });
         });
-    }
-});
-globalScheduler.start();
-server.run();
+    };
+    MongoConfigManager.prototype.writeToConfigs = function (config) {
+        return __awaiter(this, void 0, void 0, function () {
+            var newConfig;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        newConfig = new models_1.Config();
+                        newConfig.id = config.id;
+                        newConfig.url = config.url;
+                        newConfig.cookies = config.cookies;
+                        return [4 /*yield*/, newConfig.save()];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return MongoConfigManager;
+}());
+exports["default"] = MongoConfigManager;

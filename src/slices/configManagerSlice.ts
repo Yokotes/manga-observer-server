@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { ConfigManager } from '../services'
+import MongoConfigManager from '../services/MongoConfigManager'
 
 const configManagerSlice = createSlice({
   name: 'configManagerSlice',
   initialState: {
-    configManager: new ConfigManager()
+    configManager: new MongoConfigManager()
   },
   reducers: {
     setConfigManager (state, { payload }) {

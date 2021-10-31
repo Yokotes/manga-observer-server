@@ -5,8 +5,11 @@ import Parser, { ParseConfig } from './services/Parser'
 import { parseManga } from './utils'
 import { Notifier } from './services'
 import { addConfig } from './slices/configSlice'
+import { connect } from 'mongoose'
 
 config()
+
+connect(process.env.MONGO_URL)
 
 const globalScheduler = store.getState().scheduler.scheduler
 const configManager = store.getState().configManager.configManager
@@ -15,10 +18,10 @@ const server = new Server()
 const parser = new Parser()
 const notifier = new Notifier(server.getSockets())
 
-const loadedConfigs = configManager.readConfigs()
-
-loadedConfigs.forEach(config => {
-  store.dispatch(addConfig(config))
+configManager.readConfigs().then(configs => {
+  configs.forEach(config => {
+    store.dispatch(addConfig(config))
+  })
 })
 
 globalScheduler.addEvent({
