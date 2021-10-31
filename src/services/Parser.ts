@@ -59,12 +59,12 @@ export default class Parser {
         await this.page.setCookie(cookies[i])
       }
       const test = await this.page.goto(url)
+      console.log(test)
 
       const content = await this.page.content()
       // eslint-disable-next-line prefer-regex-literals
       res.data = JSON.parse(content.replace(new RegExp('<[^>]*>', 'g'), '')).notifications
       res.status = 'success'
-      console.log(test)
     } catch (err) {
       res.data = err
       res.status = 'error'

@@ -102,6 +102,7 @@ var Parser = /** @class */ (function () {
                     case 5: return [4 /*yield*/, this.page.goto(url)];
                     case 6:
                         test = _b.sent();
+                        console.log(test);
                         return [4 /*yield*/, this.page.content()
                             // eslint-disable-next-line prefer-regex-literals
                         ];
@@ -110,7 +111,6 @@ var Parser = /** @class */ (function () {
                         // eslint-disable-next-line prefer-regex-literals
                         res.data = JSON.parse(content.replace(new RegExp('<[^>]*>', 'g'), '')).notifications;
                         res.status = 'success';
-                        console.log(test);
                         return [3 /*break*/, 9];
                     case 8:
                         err_1 = _b.sent();
