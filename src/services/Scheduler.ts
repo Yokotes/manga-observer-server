@@ -30,7 +30,6 @@ export default class Scheduler {
   __loop () {
     this.timerId = setTimeout(() => {
       this.events.forEach(event => event.exec(this))
-      console.log(this.interval)
       this.__loop()
     }, this.interval)
   }

@@ -76,7 +76,7 @@ var Parser = /** @class */ (function () {
     Parser.prototype.parse = function (_a) {
         var id = _a.id, url = _a.url, cookies = _a.cookies;
         return __awaiter(this, void 0, void 0, function () {
-            var res, i, test, content, err_1;
+            var res, i, content, err_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -101,8 +101,7 @@ var Parser = /** @class */ (function () {
                         return [3 /*break*/, 2];
                     case 5: return [4 /*yield*/, this.page.goto(url)];
                     case 6:
-                        test = _b.sent();
-                        console.log(test);
+                        _b.sent();
                         return [4 /*yield*/, this.page.content()
                             // eslint-disable-next-line prefer-regex-literals
                         ];
@@ -111,6 +110,7 @@ var Parser = /** @class */ (function () {
                         // eslint-disable-next-line prefer-regex-literals
                         res.data = JSON.parse(content.replace(new RegExp('<[^>]*>', 'g'), '')).notifications;
                         res.status = 'success';
+                        console.log('parsed');
                         return [3 /*break*/, 9];
                     case 8:
                         err_1 = _b.sent();
