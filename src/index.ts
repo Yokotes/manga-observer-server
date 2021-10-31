@@ -12,7 +12,6 @@ const globalScheduler = store.getState().scheduler.scheduler
 const parser = new Parser()
 const notifier = new Notifier(server.getSockets())
 
-globalScheduler.setInterval(5000)
 globalScheduler.addEvent({
   id: 'notifier',
   exec: () => { notifier.watchUpdates() }

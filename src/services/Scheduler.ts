@@ -5,11 +5,10 @@ export default class Scheduler {
 
   // eslint-disable-next-line no-undef
   private timerId: NodeJS.Timeout
-  interval: number
+  interval: number = 10000
 
   constructor () {
     this.events = []
-    this.interval = 60000
   }
 
   addEvent (event: SchedulerEvent) {
@@ -31,6 +30,7 @@ export default class Scheduler {
   __loop () {
     this.timerId = setTimeout(() => {
       this.events.forEach(event => event.exec(this))
+      console.log(this.interval)
       this.__loop()
     }, this.interval)
   }

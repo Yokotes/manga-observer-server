@@ -47,7 +47,6 @@ var server = new server_1["default"]();
 var globalScheduler = store_1["default"].getState().scheduler.scheduler;
 var parser = new Parser_1["default"]();
 var notifier = new services_1.Notifier(server.getSockets());
-globalScheduler.setInterval(5000);
 globalScheduler.addEvent({
     id: 'notifier',
     exec: function () { notifier.watchUpdates(); }
