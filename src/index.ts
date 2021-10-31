@@ -4,13 +4,22 @@ import store from './store'
 import Parser, { ParseConfig } from './services/Parser'
 import { parseManga } from './utils'
 import { Notifier } from './services'
+import { addConfig } from './slices/configSlice'
 
 config()
 
-const server = new Server()
 const globalScheduler = store.getState().scheduler.scheduler
+const configManager = store.getState().configManager.configManager
+
+const server = new Server()
 const parser = new Parser()
 const notifier = new Notifier(server.getSockets())
+
+const loadedConfigs = configManager.readConfigs()
+
+loadedConfigs.forEach(config => {
+  store.dispatch(addConfig(config))
+})
 
 globalScheduler.addEvent({
   id: 'notifier',

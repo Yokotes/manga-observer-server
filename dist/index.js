@@ -42,11 +42,17 @@ var store_1 = require("./store");
 var Parser_1 = require("./services/Parser");
 var utils_1 = require("./utils");
 var services_1 = require("./services");
+var configSlice_1 = require("./slices/configSlice");
 (0, dotenv_1.config)();
-var server = new server_1["default"]();
 var globalScheduler = store_1["default"].getState().scheduler.scheduler;
+var configManager = store_1["default"].getState().configManager.configManager;
+var server = new server_1["default"]();
 var parser = new Parser_1["default"]();
 var notifier = new services_1.Notifier(server.getSockets());
+var loadedConfigs = configManager.readConfigs();
+loadedConfigs.forEach(function (config) {
+    store_1["default"].dispatch((0, configSlice_1.addConfig)(config));
+});
 globalScheduler.addEvent({
     id: 'notifier',
     exec: function () { notifier.watchUpdates(); }

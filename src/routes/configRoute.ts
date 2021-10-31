@@ -10,12 +10,15 @@ configRoute.get('/config', (req, res) => {
 })
 
 configRoute.post('/config', (req, res) => {
+  const configManager = store.getState().configManager.configManager
   const config = req.body
+
   if (!config) {
     res.sendStatus(400)
     return
   }
 
+  configManager.writeToConfigs(config)
   store.dispatch(addConfig(config))
 
   res.sendStatus(201)

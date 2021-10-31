@@ -9,11 +9,13 @@ configRoute.get('/config', function (req, res) {
     res.send(configs);
 });
 configRoute.post('/config', function (req, res) {
+    var configManager = store_1["default"].getState().configManager.configManager;
     var config = req.body;
     if (!config) {
         res.sendStatus(400);
         return;
     }
+    configManager.writeToConfigs(config);
     store_1["default"].dispatch((0, configSlice_1.addConfig)(config));
     res.sendStatus(201);
 });
