@@ -28,7 +28,7 @@ const getMangaInfo = ({ manga, chapter, link }: RawManga, config: ParseConfig): 
     id: manga.slug,
     name: manga.rus_name,
     img: `https://${config.id}/uploads/cover/${manga.slug}/cover/${manga.cover}_thumb.jpg`,
-    chapter: `Том ${chapter.volume} Глава ${chapter.number} ${chapter.name}`,
+    chapter: `Том ${chapter?.volume} Глава ${chapter?.number} ${chapter?.name}`,
     link
   }
 }

@@ -6,7 +6,7 @@ var getMangaInfo = function (_a, config) {
         id: manga.slug,
         name: manga.rus_name,
         img: "https://" + config.id + "/uploads/cover/" + manga.slug + "/cover/" + manga.cover + "_thumb.jpg",
-        chapter: "\u0422\u043E\u043C " + chapter.volume + " \u0413\u043B\u0430\u0432\u0430 " + chapter.number + " " + chapter.name,
+        chapter: "\u0422\u043E\u043C " + (chapter === null || chapter === void 0 ? void 0 : chapter.volume) + " \u0413\u043B\u0430\u0432\u0430 " + (chapter === null || chapter === void 0 ? void 0 : chapter.number) + " " + (chapter === null || chapter === void 0 ? void 0 : chapter.name),
         link: link
     };
 };
