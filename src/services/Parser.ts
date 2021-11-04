@@ -30,8 +30,7 @@ export default class Parser {
   async setup () {
     const args = [
       '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--incognito'
+      '--disable-setuid-sandbox'
     ]
 
     if (process.env.IS_HEROKU === 'true') {
