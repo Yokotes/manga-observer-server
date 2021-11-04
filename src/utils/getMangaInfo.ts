@@ -25,8 +25,10 @@ export type MangaInfo = {
 
 }
 
-const getMangaInfo = ({ manga, chapter: ch, link, chaptersCount }: RawManga, config: ParseConfig): MangaInfo => {
+const getMangaInfo = ({ manga, chapter: ch, link: l, chaptersCount }: RawManga, config: ParseConfig): MangaInfo => {
   const chapter = chaptersCount ? `${chaptersCount} главы` : `Том ${ch?.volume} Глава ${ch?.number} ${ch?.name}`
+  const link = chaptersCount ? `https://${config.id}${l}` : l
+
   return {
     id: manga.slug,
     name: manga.rus_name,
