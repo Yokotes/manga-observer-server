@@ -49,7 +49,8 @@ var Parser = /** @class */ (function () {
                     case 0:
                         args = [
                             '--no-sandbox',
-                            '--disable-setuid-sandbox'
+                            '--disable-setuid-sandbox',
+                            '--incognito'
                         ];
                         if (process.env.IS_HEROKU === 'true') {
                             args.push("--proxy-server=" + process.env.PROXY_SERVER);

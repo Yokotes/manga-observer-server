@@ -5,7 +5,7 @@ export default class Scheduler {
 
   // eslint-disable-next-line no-undef
   private timerId: NodeJS.Timeout
-  interval: number = 600000
+  interval: number = 5000
 
   constructor () {
     this.events = []
