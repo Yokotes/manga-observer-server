@@ -3,7 +3,7 @@
 exports.__esModule = true;
 var Scheduler = /** @class */ (function () {
     function Scheduler() {
-        this.interval = 600000;
+        this.interval = 6000;
         this.events = [];
     }
     Scheduler.prototype.addEvent = function (event) {
