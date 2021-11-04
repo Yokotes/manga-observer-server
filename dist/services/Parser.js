@@ -40,7 +40,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 var puppeteer_extra_1 = __importDefault(require("puppeteer-extra"));
-var puppeteer_extra_plugin_stealth_1 = __importDefault(require("puppeteer-extra-plugin-stealth"));
 var user_agents_1 = __importDefault(require("user-agents"));
 var Parser = /** @class */ (function () {
     function Parser() {
@@ -48,9 +47,9 @@ var Parser = /** @class */ (function () {
     }
     Parser.prototype.setup = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var args, _a, userAgent, _b;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            var args, _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         args = [
                             '--no-sandbox',
@@ -59,7 +58,7 @@ var Parser = /** @class */ (function () {
                         if (process.env.IS_HEROKU === 'true') {
                             args.push("--proxy-server=" + process.env.PROXY_SERVER);
                         }
-                        puppeteer_extra_1["default"].use((0, puppeteer_extra_plugin_stealth_1["default"])());
+                        // puppeteer.use(StealthPlugin())
                         _a = this;
                         return [4 /*yield*/, puppeteer_extra_1["default"].launch({
                                 headless: true,
@@ -67,14 +66,8 @@ var Parser = /** @class */ (function () {
                                 args: args
                             })];
                     case 1:
-                        _a.browser = _c.sent();
-                        userAgent = new user_agents_1["default"]();
-                        _b = this;
-                        return [4 /*yield*/, this.browser.newPage()];
-                    case 2:
-                        _b.page = _c.sent();
-                        this.page.setUserAgent(userAgent.toString());
-                        this.page.setJavaScriptEnabled(true);
+                        // puppeteer.use(StealthPlugin())
+                        _a.browser = _b.sent();
                         return [2 /*return*/];
                 }
             });
@@ -83,7 +76,7 @@ var Parser = /** @class */ (function () {
     Parser.prototype.parse = function (_a) {
         var id = _a.id, url = _a.url, cookies = _a.cookies;
         return __awaiter(this, void 0, void 0, function () {
-            var res, i, content, err_1;
+            var res, page, userAgent, i, content, err_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -92,39 +85,50 @@ var Parser = /** @class */ (function () {
                             data: '',
                             status: 'error'
                         };
-                        _b.label = 1;
+                        return [4 /*yield*/, this.browser.newPage()];
                     case 1:
-                        _b.trys.push([1, 8, , 9]);
-                        i = 0;
+                        page = _b.sent();
+                        userAgent = new user_agents_1["default"]();
+                        page.setUserAgent(userAgent.toString());
                         _b.label = 2;
                     case 2:
-                        if (!(i < cookies.length)) return [3 /*break*/, 5];
-                        return [4 /*yield*/, this.page.setCookie(cookies[i])];
+                        _b.trys.push([2, 10, , 11]);
+                        i = 0;
+                        _b.label = 3;
                     case 3:
-                        _b.sent();
-                        _b.label = 4;
+                        if (!(i < cookies.length)) return [3 /*break*/, 6];
+                        return [4 /*yield*/, page.setCookie(cookies[i])];
                     case 4:
-                        i++;
-                        return [3 /*break*/, 2];
-                    case 5: return [4 /*yield*/, this.page.goto(url)];
-                    case 6:
                         _b.sent();
-                        return [4 /*yield*/, this.page.content()
+                        _b.label = 5;
+                    case 5:
+                        i++;
+                        return [3 /*break*/, 3];
+                    case 6: return [4 /*yield*/, page.goto(url)];
+                    case 7:
+                        _b.sent();
+                        return [4 /*yield*/, page.waitForTimeout(5000)];
+                    case 8:
+                        _b.sent();
+                        return [4 /*yield*/, page.content()
                             // eslint-disable-next-line prefer-regex-literals
                         ];
-                    case 7:
+                    case 9:
                         content = _b.sent();
                         // eslint-disable-next-line prefer-regex-literals
                         res.data = JSON.parse(content.replace(new RegExp('<[^>]*>', 'g'), '')).notifications;
                         res.status = 'success';
                         console.log('parsed');
-                        return [3 /*break*/, 9];
-                    case 8:
+                        return [3 /*break*/, 11];
+                    case 10:
                         err_1 = _b.sent();
                         res.data = err_1;
                         res.status = 'error';
-                        return [3 /*break*/, 9];
-                    case 9: return [2 /*return*/, res];
+                        return [3 /*break*/, 11];
+                    case 11: return [4 /*yield*/, page.close()];
+                    case 12:
+                        _b.sent();
+                        return [2 /*return*/, res];
                 }
             });
         });

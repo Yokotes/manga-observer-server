@@ -1,5 +1,4 @@
 import puppeteer from 'puppeteer-extra'
-import StealthPlugin from 'puppeteer-extra-plugin-stealth'
 import UserAgents from 'user-agents'
 import { Protocol, Browser, Page } from 'puppeteer'
 
@@ -38,19 +37,13 @@ export default class Parser {
       args.push(`--proxy-server=${process.env.PROXY_SERVER}`)
     }
 
-    puppeteer.use(StealthPlugin())
+    // puppeteer.use(StealthPlugin())
 
     this.browser = await puppeteer.launch({
       headless: true,
       ignoreHTTPSErrors: true,
       args: args
     })
-
-    const userAgent = new UserAgents()
-    this.page = await this.browser.newPage()
-
-    this.page.setUserAgent(userAgent.toString())
-    this.page.setJavaScriptEnabled(true)
   }
 
   async parse ({ id, url, cookies }: ParseConfig) {
@@ -59,14 +52,17 @@ export default class Parser {
       data: '',
       status: 'error'
     }
-
+    const page = await this.browser.newPage()
+    const userAgent = new UserAgents()
+    page.setUserAgent(userAgent.toString())
     try {
       for (let i = 0; i < cookies.length; i++) {
-        await this.page.setCookie(cookies[i])
+        await page.setCookie(cookies[i])
       }
-      await this.page.goto(url)
+      await page.goto(url)
+      await page.waitForTimeout(5000)
 
-      const content = await this.page.content()
+      const content = await page.content()
       // eslint-disable-next-line prefer-regex-literals
       res.data = JSON.parse(content.replace(new RegExp('<[^>]*>', 'g'), '')).notifications
       res.status = 'success'
@@ -75,7 +71,7 @@ export default class Parser {
       res.data = err
       res.status = 'error'
     }
-
+    await page.close()
     return res
   }
 
