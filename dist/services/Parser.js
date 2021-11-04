@@ -41,13 +41,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 var puppeteer_extra_1 = __importDefault(require("puppeteer-extra"));
 var puppeteer_extra_plugin_stealth_1 = __importDefault(require("puppeteer-extra-plugin-stealth"));
+var user_agents_1 = __importDefault(require("user-agents"));
 var Parser = /** @class */ (function () {
     function Parser() {
         this.setup();
     }
     Parser.prototype.setup = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var args, _a, _b;
+            var args, _a, userAgent, _b;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
@@ -67,11 +68,12 @@ var Parser = /** @class */ (function () {
                             })];
                     case 1:
                         _a.browser = _c.sent();
+                        userAgent = new user_agents_1["default"]();
                         _b = this;
                         return [4 /*yield*/, this.browser.newPage()];
                     case 2:
                         _b.page = _c.sent();
-                        this.page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36');
+                        this.page.setUserAgent(userAgent.toString());
                         this.page.setJavaScriptEnabled(true);
                         return [2 /*return*/];
                 }

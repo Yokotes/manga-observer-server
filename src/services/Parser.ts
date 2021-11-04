@@ -1,5 +1,6 @@
 import puppeteer from 'puppeteer-extra'
 import StealthPlugin from 'puppeteer-extra-plugin-stealth'
+import UserAgents from 'user-agents'
 import { Protocol, Browser, Page } from 'puppeteer'
 
 export type ParseResult = {
@@ -45,8 +46,10 @@ export default class Parser {
       args: args
     })
 
+    const userAgent = new UserAgents()
     this.page = await this.browser.newPage()
-    this.page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36')
+
+    this.page.setUserAgent(userAgent.toString())
     this.page.setJavaScriptEnabled(true)
   }
 
