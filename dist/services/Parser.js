@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-var puppeteer_extra_1 = __importDefault(require("puppeteer-extra"));
+var puppeteer_1 = __importDefault(require("puppeteer"));
 var user_agents_1 = __importDefault(require("user-agents"));
 var Parser = /** @class */ (function () {
     function Parser() {
@@ -60,7 +60,7 @@ var Parser = /** @class */ (function () {
                         }
                         // puppeteer.use(StealthPlugin())
                         _a = this;
-                        return [4 /*yield*/, puppeteer_extra_1["default"].launch({
+                        return [4 /*yield*/, puppeteer_1["default"].launch({
                                 headless: true,
                                 ignoreHTTPSErrors: true,
                                 args: args

@@ -1,6 +1,5 @@
-import puppeteer from 'puppeteer-extra'
+import puppeteer, { Protocol, Browser, Page } from 'puppeteer'
 import UserAgents from 'user-agents'
-import { Protocol, Browser, Page } from 'puppeteer'
 
 export type ParseResult = {
   configId: string | null,
