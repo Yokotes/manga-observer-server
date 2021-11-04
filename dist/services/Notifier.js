@@ -1,6 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
-var store_1 = require("../store");
+var store_1 = __importDefault(require("../store"));
 var Notifier = /** @class */ (function () {
     function Notifier(io) {
         this.io = io;

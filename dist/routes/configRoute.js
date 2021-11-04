@@ -35,10 +35,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
 var express_1 = require("express");
 var configSlice_1 = require("../slices/configSlice");
-var store_1 = require("../store");
+var store_1 = __importDefault(require("../store"));
 var configRoute = (0, express_1.Router)();
 configRoute.get('/config', function (req, res) {
     var configs = store_1["default"].getState().config.configs;

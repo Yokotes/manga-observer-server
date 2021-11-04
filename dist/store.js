@@ -1,10 +1,13 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
 var toolkit_1 = require("@reduxjs/toolkit");
-var configManagerSlice_1 = require("./slices/configManagerSlice");
-var configSlice_1 = require("./slices/configSlice");
-var mangaSlice_1 = require("./slices/mangaSlice");
-var schedulerSlice_1 = require("./slices/schedulerSlice");
+var configManagerSlice_1 = __importDefault(require("./slices/configManagerSlice"));
+var configSlice_1 = __importDefault(require("./slices/configSlice"));
+var mangaSlice_1 = __importDefault(require("./slices/mangaSlice"));
+var schedulerSlice_1 = __importDefault(require("./slices/schedulerSlice"));
 var rootReducer = (0, toolkit_1.combineReducers)({
     manga: mangaSlice_1["default"],
     config: configSlice_1["default"],

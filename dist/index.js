@@ -35,11 +35,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
 var dotenv_1 = require("dotenv");
-var server_1 = require("./server");
-var store_1 = require("./store");
-var Parser_1 = require("./services/Parser");
+var server_1 = __importDefault(require("./server"));
+var store_1 = __importDefault(require("./store"));
+var Parser_1 = __importDefault(require("./services/Parser"));
 var utils_1 = require("./utils");
 var services_1 = require("./services");
 var configSlice_1 = require("./slices/configSlice");

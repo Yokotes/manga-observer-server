@@ -1,6 +1,5 @@
 import { createServer, Server as HttpServer } from 'http'
-import * as express from 'express'
-import { Express } from 'express'
+import express, { Express } from 'express'
 import { Server as SocketServer } from 'socket.io'
 import { configRoute, mangaRoute, timerRoute } from './routes'
 import { json } from 'body-parser'

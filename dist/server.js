@@ -1,13 +1,16 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
 var http_1 = require("http");
-var express = require("express");
+var express_1 = __importDefault(require("express"));
 var socket_io_1 = require("socket.io");
 var routes_1 = require("./routes");
 var body_parser_1 = require("body-parser");
 var Server = /** @class */ (function () {
     function Server() {
-        this.app = express();
+        this.app = (0, express_1["default"])();
         this.server = (0, http_1.createServer)(this.app);
         this.io = new socket_io_1.Server(this.server);
         this.setup();

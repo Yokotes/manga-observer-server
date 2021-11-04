@@ -1,4 +1,5 @@
-import * as puppeteer from 'puppeteer'
+import puppeteer from 'puppeteer-extra'
+import StealthPlugin from 'puppeteer-extra-plugin-stealth'
 import { Protocol, Browser, Page } from 'puppeteer'
 
 export type ParseResult = {
@@ -36,6 +37,8 @@ export default class Parser {
     if (process.env.IS_HEROKU === 'true') {
       args.push(`--proxy-server=${process.env.PROXY_SERVER}`)
     }
+
+    puppeteer.use(StealthPlugin())
 
     this.browser = await puppeteer.launch({
       headless: true,

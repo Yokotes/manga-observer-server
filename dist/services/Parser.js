@@ -35,8 +35,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
-var puppeteer = require("puppeteer");
+var puppeteer_extra_1 = __importDefault(require("puppeteer-extra"));
+var puppeteer_extra_plugin_stealth_1 = __importDefault(require("puppeteer-extra-plugin-stealth"));
 var Parser = /** @class */ (function () {
     function Parser() {
         this.setup();
@@ -55,8 +59,9 @@ var Parser = /** @class */ (function () {
                         if (process.env.IS_HEROKU === 'true') {
                             args.push("--proxy-server=" + process.env.PROXY_SERVER);
                         }
+                        puppeteer_extra_1["default"].use((0, puppeteer_extra_plugin_stealth_1["default"])());
                         _a = this;
-                        return [4 /*yield*/, puppeteer.launch({
+                        return [4 /*yield*/, puppeteer_extra_1["default"].launch({
                                 headless: true,
                                 ignoreHTTPSErrors: true,
                                 args: args

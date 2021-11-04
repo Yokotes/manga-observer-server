@@ -1,8 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
 var express_1 = require("express");
 var mangaSlice_1 = require("../slices/mangaSlice");
-var store_1 = require("../store");
+var store_1 = __importDefault(require("../store"));
 var mangaRoute = (0, express_1.Router)();
 mangaRoute.get('/manga', function (req, res) {
     var manga = store_1["default"].getState().manga.mangaList;
