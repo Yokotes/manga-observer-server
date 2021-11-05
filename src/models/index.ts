@@ -1,5 +1,7 @@
 import Config from './Config'
+import Manga from './Manga'
 
 export {
-  Config
+  Config,
+  Manga
 }

@@ -1,6 +1,7 @@
 import store from '../store'
 import { Server } from 'socket.io'
 import { MangaInfo } from '../utils/getMangaInfo'
+import { Manga } from '../models'
 
 export default class Notifier {
   oldState: MangaInfo[]
@@ -8,15 +9,15 @@ export default class Notifier {
 
   constructor (io: any) {
     this.io = io
-    this.oldState = []
   }
 
-  watchUpdates () {
+  async watchUpdates () {
     const state: MangaInfo[] = store.getState().manga.mangaList
     const newManga: MangaInfo[] = []
 
-    state.forEach(manga => {
-      const isOld = this.oldState.find(m => m.id === manga.id)
+    state.forEach(async (manga) => {
+      const oldMangaArr = await Manga.find({})
+      const isOld = oldMangaArr.find(m => m.id === manga.id)
 
       if (isOld) return
 
@@ -25,8 +26,8 @@ export default class Notifier {
 
     if (newManga.length > 0) {
       this.sendUpdates(newManga)
+      await Manga.insertMany(newManga)
     }
-    this.oldState = state
   }
 
   sendUpdates (updates: MangaInfo[]) {
