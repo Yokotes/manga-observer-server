@@ -13,8 +13,11 @@ export default class Notifier {
 
   async watchUpdates () {
     const state: MangaInfo[] = store.getState().manga.mangaList
+    const isParsed = store.getState().manga.isParsed
     const newManga: MangaInfo[] = []
     const oldMangaArr = await Manga.find({})
+
+    if (!isParsed) return
 
     // Get new manga from db
     state.forEach(async (manga) => {

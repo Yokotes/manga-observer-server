@@ -61,6 +61,7 @@ var parseManga = function (config, parser, store) { return __awaiter(void 0, voi
                             return [2 /*return*/];
                         });
                     }); });
+                    store.dispatch((0, mangaSlice_1.setParsed)(true));
                 }
                 catch (err) {
                     console.log('error', err);

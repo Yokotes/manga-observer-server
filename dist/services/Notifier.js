@@ -47,18 +47,19 @@ var Notifier = /** @class */ (function () {
     }
     Notifier.prototype.watchUpdates = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var state, newManga, oldMangaArr;
+            var state, isParsed, newManga, oldMangaArr;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         state = store_1["default"].getState().manga.mangaList;
+                        isParsed = store_1["default"].getState().manga.isParsed;
                         newManga = [];
-                        return [4 /*yield*/, models_1.Manga.find({})
-                            // Get new manga from db
-                        ];
+                        return [4 /*yield*/, models_1.Manga.find({})];
                     case 1:
                         oldMangaArr = _a.sent();
+                        if (!isParsed)
+                            return [2 /*return*/];
                         // Get new manga from db
                         state.forEach(function (manga) { return __awaiter(_this, void 0, void 0, function () {
                             var isOld;

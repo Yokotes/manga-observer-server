@@ -1,6 +1,6 @@
 import { getMangaInfo } from '.'
 import Parser, { ParseConfig } from '../services/Parser'
-import { addManga, clearMangaList } from '../slices/mangaSlice'
+import { addManga, clearMangaList, setParsed } from '../slices/mangaSlice'
 
 const parseManga = async (config: ParseConfig, parser: Parser, store: any) => {
   const content = await parser.parse(config)
@@ -19,6 +19,7 @@ const parseManga = async (config: ParseConfig, parser: Parser, store: any) => {
     mangaArr.forEach(async (manga) => {
       store.dispatch(addManga(manga))
     })
+    store.dispatch(setParsed(true))
   } catch (err) {
     console.log('error', err)
   }

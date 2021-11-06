@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 const mangaSlice = createSlice({
   name: 'mangaSlice',
   initialState: {
-    mangaList: []
+    mangaList: [],
+    isParsed: false
   },
   reducers: {
     addManga (state, { payload }) {
@@ -14,10 +15,13 @@ const mangaSlice = createSlice({
     },
     clearMangaList (state) {
       state.mangaList = []
+    },
+    setParsed (state, { payload }) {
+      state.isParsed = payload
     }
   }
 })
 
 export default mangaSlice.reducer
 
-export const { addManga, removeManga, clearMangaList } = mangaSlice.actions
+export const { addManga, removeManga, clearMangaList, setParsed } = mangaSlice.actions
