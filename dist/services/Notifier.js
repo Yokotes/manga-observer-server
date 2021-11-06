@@ -54,9 +54,12 @@ var Notifier = /** @class */ (function () {
                     case 0:
                         state = store_1["default"].getState().manga.mangaList;
                         newManga = [];
-                        return [4 /*yield*/, models_1.Manga.find({})];
+                        return [4 /*yield*/, models_1.Manga.find({})
+                            // Get new manga from db
+                        ];
                     case 1:
                         oldMangaArr = _a.sent();
+                        // Get new manga from db
                         state.forEach(function (manga) { return __awaiter(_this, void 0, void 0, function () {
                             var isOld;
                             return __generator(this, function (_a) {
@@ -65,6 +68,22 @@ var Notifier = /** @class */ (function () {
                                     return [2 /*return*/];
                                 newManga.push(manga);
                                 return [2 /*return*/];
+                            });
+                        }); });
+                        // Clear manga from db
+                        oldMangaArr.forEach(function (manga) { return __awaiter(_this, void 0, void 0, function () {
+                            var isExist;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        isExist = state.find(function (m) { return m.id === manga.id; });
+                                        if (isExist)
+                                            return [2 /*return*/];
+                                        return [4 /*yield*/, models_1.Manga.findOneAndDelete({ id: manga.id })];
+                                    case 1:
+                                        _a.sent();
+                                        return [2 /*return*/];
+                                }
                             });
                         }); });
                         if (!(newManga.length > 0)) return [3 /*break*/, 3];
