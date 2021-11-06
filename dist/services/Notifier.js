@@ -67,7 +67,6 @@ var Notifier = /** @class */ (function () {
                                 return [2 /*return*/];
                             });
                         }); });
-                        console.log(newManga);
                         if (!(newManga.length > 0)) return [3 /*break*/, 3];
                         this.sendUpdates(newManga);
                         return [4 /*yield*/, models_1.Manga.insertMany(newManga)];
