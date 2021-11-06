@@ -47,35 +47,34 @@ var Notifier = /** @class */ (function () {
     }
     Notifier.prototype.watchUpdates = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var state, newManga;
+            var state, newManga, oldMangaArr;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         state = store_1["default"].getState().manga.mangaList;
                         newManga = [];
+                        return [4 /*yield*/, models_1.Manga.find({})];
+                    case 1:
+                        oldMangaArr = _a.sent();
                         state.forEach(function (manga) { return __awaiter(_this, void 0, void 0, function () {
-                            var oldMangaArr, isOld;
+                            var isOld;
                             return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0: return [4 /*yield*/, models_1.Manga.find({})];
-                                    case 1:
-                                        oldMangaArr = _a.sent();
-                                        isOld = oldMangaArr.find(function (m) { return m.id === manga.id; });
-                                        if (isOld)
-                                            return [2 /*return*/];
-                                        newManga.push(manga);
-                                        return [2 /*return*/];
-                                }
+                                isOld = oldMangaArr.find(function (m) { return m.id === manga.id; });
+                                if (isOld)
+                                    return [2 /*return*/];
+                                newManga.push(manga);
+                                return [2 /*return*/];
                             });
                         }); });
-                        if (!(newManga.length > 0)) return [3 /*break*/, 2];
+                        console.log(newManga);
+                        if (!(newManga.length > 0)) return [3 /*break*/, 3];
                         this.sendUpdates(newManga);
                         return [4 /*yield*/, models_1.Manga.insertMany(newManga)];
-                    case 1:
+                    case 2:
                         _a.sent();
-                        _a.label = 2;
-                    case 2: return [2 /*return*/];
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
                 }
             });
         });

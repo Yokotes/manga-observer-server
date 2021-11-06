@@ -14,16 +14,16 @@ export default class Notifier {
   async watchUpdates () {
     const state: MangaInfo[] = store.getState().manga.mangaList
     const newManga: MangaInfo[] = []
+    const oldMangaArr = await Manga.find({})
 
     state.forEach(async (manga) => {
-      const oldMangaArr = await Manga.find({})
       const isOld = oldMangaArr.find(m => m.id === manga.id)
 
       if (isOld) return
 
       newManga.push(manga)
     })
-
+    console.log(newManga)
     if (newManga.length > 0) {
       this.sendUpdates(newManga)
       await Manga.insertMany(newManga)

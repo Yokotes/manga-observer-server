@@ -37,7 +37,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var _1 = require(".");
-var models_1 = require("../models");
 var mangaSlice_1 = require("../slices/mangaSlice");
 var parseManga = function (config, parser, store) { return __awaiter(void 0, void 0, void 0, function () {
     var content, data, mangaArr;
@@ -57,20 +56,9 @@ var parseManga = function (config, parser, store) { return __awaiter(void 0, voi
                     mangaArr = data.map(function (item) { return (0, _1.getMangaInfo)(item.data, config); });
                     store.dispatch((0, mangaSlice_1.clearMangaList)());
                     mangaArr.forEach(function (manga) { return __awaiter(void 0, void 0, void 0, function () {
-                        var newManga;
                         return __generator(this, function (_a) {
-                            switch (_a.label) {
-                                case 0:
-                                    store.dispatch((0, mangaSlice_1.addManga)(manga));
-                                    return [4 /*yield*/, models_1.Manga.findOneAndDelete({ id: manga.id })];
-                                case 1:
-                                    _a.sent();
-                                    newManga = new models_1.Manga(manga);
-                                    return [4 /*yield*/, newManga.save()];
-                                case 2:
-                                    _a.sent();
-                                    return [2 /*return*/];
-                            }
+                            store.dispatch((0, mangaSlice_1.addManga)(manga));
+                            return [2 /*return*/];
                         });
                     }); });
                 }
