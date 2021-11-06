@@ -23,7 +23,6 @@ export default class Notifier {
 
       newManga.push(manga)
     })
-    console.log(newManga)
     if (newManga.length > 0) {
       this.sendUpdates(newManga)
       await Manga.insertMany(newManga)
